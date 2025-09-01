@@ -1,9 +1,6 @@
 #!/bin/sh
 
-set -e
-set -u
-
-VER=v1.0.0
+VER=v2.0.0
 
 test_file_existence() {
     if [ ! -f "$2" ]; then
@@ -247,5 +244,14 @@ if [ -n "$SUDO_BIN" ]; then
 fi
 
 unset SUDO_BIN
+
+./extract-ikconfig "/boot/vmlinuz-$(uname -r)" > /dev/null 2>&1
+
+if [ $? -ne 0 ]; then
+    echo "ERROR: [Ref. 5.1] This operating system does not meet the Properios Core Specification $VER. The contents of the kernel .config file were not found within the bootable kernel image located at /boot/vmlinuz-$(uname -r)."
+    echo "\n\tTroubleshooting Step #1: Since the extract-ikconfig script does not report whether the reason it can't find the contents of the kernel .config is due to not being able to extract the contents of the file, install all of the following programs and try again: gunzip unxz bunzip2 unlzma lzop lz4 unzstd."
+    echo "\n\tTroubleshooting Step #2: Set 'CONFIG_IKCONFIG=y' in the kernel .config file, recompile the kernel, and try again."
+    exit 1
+fi
 
 echo "SUCCESS: This operating system meets the Properios Core Specification $VER."

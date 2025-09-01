@@ -1,4 +1,4 @@
-# Properios Core Specification v1.0.0
+# Properios Core Specification v2.0.0
 
 ## Section 1 - File and Directory Ownership and Permissions
 #### 1.1 - The following directories must exist: '/boot', '/dev', '/etc', '/proc', '/root', '/run', '/tmp', '/usr', and '/var'.
@@ -57,3 +57,6 @@
 
 ## Section 4 - Programs
 #### 4.1 - The 'sudo' program is disallowed.
+
+## Section 5 - Kernel
+#### 5.1 - The kernel must be compiled with 'CONFIG_IKCONFIG=y' in order to embed the contents of the .config file used to build the kernel within the bootable kernel image [a.k.a. /boot/vmlinuz-$(uname -r)].
